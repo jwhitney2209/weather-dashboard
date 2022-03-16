@@ -7,28 +7,38 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <title>Weather Dashboard</title>
 </head>
-<body>
-  <header class="hero is-primary is-small container">
+<body class="container">
+  <header class="hero is-primary is-small">
     <div class="hero-body">
       <p class="title">Weather Dashboard</p>
       <p class="subtitle">Expect the Unexpected!</p>
     </div>
   </header>
-  <!-- User Input Form Start -->
-  <div class="field container">
-    <label class="label">Search for a City</label>
-    <div class="control">
-      <input class="input" type="text" placeholder="ex: Brownsville">
+  <main class="columns">
+    <!-- User Input Form Start -->
+    <div class="field column is-one-third">
+      <label class="label">Search for a City</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="ex: Brownsville">
+      </div>
+      <div class="control">
+        <button class="button is-primary">Search</button>
+      </div>
     </div>
-    <p class="help">Type your city here</p>
-  </div>
-  <!-- User Input Form End -->
-  <!-- Location Info Start -->
+    <!-- User Input Form End -->
+    <!-- Location Info Start -->
+    <div class="column">
+      <h3 class="title">Hello World</h3>
+    </div>
 
-  <!-- Location Info End -->
-  <!-- 5-Day Forecast Start -->
+    <!-- Location Info End -->
+    <!-- 5-Day Forecast Start -->
+    <div class="column">
+      <h3 class="title"></h3>
+    </div>
 
-  <!-- 5-Day Forecast End -->
+    <!-- 5-Day Forecast End -->
+  </main>
   <script src="./assets/js/script.js"></script>
 </body>
 </html>
