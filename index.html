@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
   <title>Weather Dashboard</title>
 </head>
 <body class="">
@@ -26,15 +27,37 @@
         <div class="control">
           <button class="button is-primary mt-1" id="search-btn">Search</button>
         </div>
+        <!-- Searched Cities -->
         <div id="searched-cities" class="box mt-3">
+          <label class="label">Recent Searches:</label>
+          <div id="recent-searches">
+            <!-- Buttons Created Dynamically in script.js -->
+          </div>
         </div>
       </form>
-      <!-- Begin City/Forecast Information -->
-      <div class="box column ml-2 mr-4">
-        <p class="bd-notification is-info title is-5">Forecast For:<span id="display-id"></span></p>
-        <div class="columns is-mobile">
-          <div class="column">
-            <p class="bd-notification is-info title is-5">5-Day Forecast</p>
+      <!-- Begin City Weather Container -->
+      <div class="box column ml-2 mr-4" id="weather-container">
+        <!-- Display Weather for ...... City -->
+        <p class="bd-notification is-info title is-5">
+        <span id="display-city"></span>
+
+        </p>
+        <!-- Display Weather Breakdown -->
+        <p class="subtitle is-6">
+          Temp: <span id="display-temp"></span></br>
+          Wind: <span id="display-wind"></span></br>
+          Humidity: <span id="display-hum"></span></br>
+          UV Index: <span id="display-uvi"></span></br>
+        </p>
+        <!-- Forecast Div Container -->
+        <div class="" id="forecast-container">
+          <p class="bd-notification is-info title is-5">5-Day Forecast</p>
+          <div class="columns mr-1 ml-1">
+            <div class="column is-one-fifth box">Day 1</div>
+            <div class="column box">Day 2</div>
+            <div class="column box">Day 3</div>
+            <div class="column box">Day 4</div>
+            <div class="column box">Day 5</div>
           </div>
         </div>
       </div>
