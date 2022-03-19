@@ -13,16 +13,20 @@ var apiKey = "edb9f78900c4573920e4c01ff60162d2";
 // - Pass lat and lon coordinates through One Call API
 // Fetch 5-Day Forecast API
 
+// add search history to localstorage
+// - store name and do another API using that value
+// 
+
 function getCoordinates(city) {
   $.ajax({
     type:"GET",
-    url:"https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid=edb9f78900c4573920e4c01ff60162d2",
+    url:"https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid="+apiKey,
     async:true,
     dataType: "json",
     success: function(json) {
-      console.log(json.coord);
       getCoordinates.json = json;
       getWeather(json.coord);
+      getForecast(json.coord);
     },
     error: function(err) {
       console.log(err);
@@ -31,15 +35,32 @@ function getCoordinates(city) {
 };
 
 function getWeather (coord) {
+  console.log(coord)
   $.ajax({
     type:"GET",
-    url:"https://api.openweathermap.org/data/2.5/onecall?lat="+coord[0]+"&lon="+coord[1]+"&units=imperial&appid=edb9f78900c4573920e4c01ff60162d2",
+    url:"https://api.openweathermap.org/data/2.5/onecall?lat="+coord.lat+"&lon="+coord.lon+"&units=imperial&appid="+apiKey,
     async:true,
     dataType: "json",
     success: function(json) {
       console.log(json);
       // getWeather.json = json;
       // showForecast(json);
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+};
+
+function getForecast (coord) {
+  console.log(coord)
+  $.ajax({
+    type:"GET",
+    url: "https://api.openweathermap.org/data/2.5/forecast?lat="+coord.lat+"&lon="+coord.lon+"&units=imperial&appid="+apiKey,
+    async:true,
+    dataType: "json",
+    success: function(json) {
+      console.log(json);
     },
     error: function(err) {
       console.log(err);
