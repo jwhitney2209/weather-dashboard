@@ -54,18 +54,54 @@
         <!-- Forecast Div Container -->
         <div class="" id="forecast-container">
           <p class="bd-notification is-info title is-5">5-Day Forecast</p>
-          <div class="columns mr-1 ml-1">
-            <div class="column is-one-fifth box">Day 1</div>
-            <div class="column box">Day 2</div>
-            <div class="column box">Day 3</div>
-            <div class="column box">Day 4</div>
-            <div class="column box">Day 5</div>
+          <div class="columns mr-1 ml-1" id="forecast-boxes">
+            <div class="column box">
+              <label class="label" id="date-1"></label>
+              <p class="subtitle is-6">
+                Temp: <span id="display-temp1"></span></br>
+                Wind: <span id="display-wind1"></span></br>
+                Humidity: <span id="display-hum1"></span></br>
+              </p>
+            </div>
+            <div class="column box">
+              <label class="label" id="date-2"></label>
+              <p class="subtitle is-6">
+                Temp: <span id="display-temp2"></span></br>
+                Wind: <span id="display-wind2"></span></br>
+                Humidity: <span id="display-hum2"></span></br>
+              </p>
+            </div>
+            <div class="column box">
+              <label class="label" id="date-3"></label>
+              <p class="subtitle is-6">
+                Temp: <span id="display-temp3"></span></br>
+                Wind: <span id="display-wind3"></span></br>
+                Humidity: <span id="display-hum3"></span></br>
+              </p>
+            </div>
+            <div class="column box">
+              <label class="label" id="date-4"></label>
+              <p class="subtitle is-6">
+                Temp: <span id="display-temp4"></span></br>
+                Wind: <span id="display-wind4"></span></br>
+                Humidity: <span id="display-hum4"></span></br>
+              </p>
+            </div>
+            <div class="column box">
+              <label class="label" id="date-5"></label>
+              <p class="subtitle is-6">
+                Temp: <span id="display-temp5"></span></br>
+                Wind: <span id="display-wind5"></span></br>
+                Humidity: <span id="display-hum5"></span></br>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ var thisIsCityEl = document.querySelector("#cityname");
 var displayCityEl = document.querySelector("#display-city");
 var weatherContainerEl = document.querySelector("#weather-container");
 var recentSearchEl = document.querySelector("#recent-searches");
+var forecastBoxesEl = document.querySelector("#forecast-boxes")
 
 var searchIdCounter = 0;
 
@@ -19,11 +20,6 @@ var apiKey = "edb9f78900c4573920e4c01ff60162d2";
 
 // add search history to localstorage
 // - store name and do another API using that value
-// 
-// UV Index
-// - 0-2.9 = Favorable
-// - 3-5 = Moderate
-// - 5.1
 
 var formSubmitHandler = function(event) {
   event.preventDefault();
@@ -31,8 +27,8 @@ var formSubmitHandler = function(event) {
   var cityname = thisIsCityEl.value.trim();
   if (cityname) {
     getCoordinates(cityname)
-    displaySearches(cityname)
     displayWeather(cityname)
+    displaySearches(cityname)
     saveSearch(cityname)
   } else {
     displayCityEl.textContent = "Error: City Not Found";
@@ -46,10 +42,8 @@ function getCoordinates(city) {
     async:true,
     dataType: "json",
     success: function(json) {
-      // console.log(json)
       getCoordinates.json = json;
       getWeather(json.coord);
-      // getForecast(json.coord);
     },
     error: function(err) {
       console.log(err);
@@ -64,7 +58,6 @@ function getWeather (coord) {
     async:true,
     dataType: "json",
     success: function(json) {
-      // console.log(json);
       getWeather.json = json;
       displayWeather(json.current);
       displayForecast(json.daily);
@@ -76,10 +69,10 @@ function getWeather (coord) {
 }
 
 function displayWeather(current) {
-  console.log(current);
   // format city name
-  var displayCity = thisIsCityEl.value.trim()
-  displayCityEl.textContent = "Showing Weather for: "+displayCity
+  var displayDate = moment(current.dt*1000).format('MM-DD-YYYY');
+  var displayCity = thisIsCityEl.value.trim();
+  displayCityEl.textContent = "Showing Weather for: "+displayCity+" ("+displayDate+")";
 
   $("#display-temp").text(current.temp + "\xB0" + "F");
   $("#display-wind").text(current.wind_speed + "mph");
@@ -97,20 +90,55 @@ function displayWeather(current) {
   } else if (current.uvi >= 11) {
     $("#display-uvi").addClass("extreme");
   };
+
 }
+
 function displayForecast (daily) {
-  // console.log(daily);
+  // convert milliseconds to current date using moment.js
+  var dateOne = moment(daily[1].dt*1000).format('MM-DD-YYYY')
+  var dateTwo = moment(daily[2].dt*1000).format('MM-DD-YYYY')
+  var dateThree = moment(daily[3].dt*1000).format('MM-DD-YYYY')
+  var dateFour = moment(daily[4].dt*1000).format('MM-DD-YYYY')
+  var dateFive = moment(daily[5].dt*1000).format('MM-DD-YYYY')
+
+  // set dates to each forecast card
+  $("#date-1").text(dateOne);
+  $("#date-2").text(dateTwo);
+  $("#date-3").text(dateThree);
+  $("#date-4").text(dateFour);
+  $("#date-5").text(dateFive);
+
+  // 
+  $("#display-temp1").text(daily[1].temp.day + "\xB0" + "F");
+  $("#display-wind1").text(daily[1].wind_speed + "mph");
+  $("#display-hum1").text(daily[1].humidity + "%");
+
+  $("#display-temp2").text(daily[2].temp.day + "\xB0" + "F");
+  $("#display-wind2").text(daily[2].wind_speed + "mph");
+  $("#display-hum2").text(daily[2].humidity + "%");
+
+  $("#display-temp3").text(daily[3].temp.day + "\xB0" + "F");
+  $("#display-wind3").text(daily[3].wind_speed + "mph");
+  $("#display-hum3").text(daily[3].humidity + "%");
+
+  $("#display-temp4").text(daily[4].temp.day + "\xB0" + "F");
+  $("#display-wind4").text(daily[4].wind_speed + "mph");
+  $("#display-hum4").text(daily[4].humidity + "%");
+
+  $("#display-temp5").text(daily[5].temp.day + "\xB0" + "F");
+  $("#display-wind5").text(daily[5].wind_speed + "mph");
+  $("#display-hum5").text(daily[5].humidity + "%");
+
 
 }
 
 
 function displaySearches(city) {
   // console.log(city)
-  var displayCity = city;
   var searchButtonEl = document.createElement("button");
   searchButtonEl.classList = "button is-info is-fullwidth";
   searchButtonEl.setAttribute("data-id", searchIdCounter);
-  searchButtonEl.textContent = displayCity;
+  searchButtonEl.textContent = city;
 
   recentSearchEl.appendChild(searchButtonEl);
 
@@ -123,3 +151,4 @@ var saveSearch = function (city) {
 }
 
 userInputEl.addEventListener("submit", formSubmitHandler)
+// recentSearchEl.addEventListener("submit", )
