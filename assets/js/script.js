@@ -58,6 +58,7 @@ function getWeather (coord) {
     async:true,
     dataType: "json",
     success: function(json) {
+      console.log(json);
       getWeather.json = json;
       displayWeather(json.current);
       displayForecast(json.daily);
@@ -69,21 +70,21 @@ function getWeather (coord) {
 }
 
 function displayWeather(current) {
-  // format city name
+  console.log(Math.round(current.temp));
   var displayDate = moment(current.dt*1000).format('MM-DD-YYYY');
   var displayCity = thisIsCityEl.value.trim();
   displayCityEl.textContent = "Showing Weather for: "+displayCity+" ("+displayDate+")";
 
-  $("#display-temp").text(current.temp + "\xB0" + "F");
-  $("#display-wind").text(current.wind_speed + "mph");
+  $("#display-temp").text(Math.round(current.temp) + "\xB0" + "F");
+  $("#display-wind").text(Math.round(current.wind_speed) + "mph");
   $("#display-hum").text(current.humidity + "%");
-  $("#display-uvi").text(current.uvi);
+  $("#display-uvi").text(Math.round(current.uvi));
 
   if (current.uvi <= 2) {
     $("#display-uvi").addClass("favorable");
   } else if (current.uvi >= 3 || current.uvi <= 5) {
     $("#display-uvi").addClass("moderate");
-  } else if (current.uvi >= 6 || current.uvi <= 7) {
+  } else if (current.uvi == 6 || current.uvi == 7) {
     $("#display-uvi").addClass("high");
   } else if (current.uvi >= 8 || current.uvi <= 10) {
     $("#display-uvi").addClass("very-high");
