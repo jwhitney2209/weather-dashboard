@@ -5,6 +5,8 @@ var displayCityEl = document.querySelector("#display-city");
 var weatherContainerEl = document.querySelector("#weather-container");
 var recentSearchEl = document.querySelector("#recent-searches");
 
+var searchIdCounter = 0;
+
 var apiKey = "edb9f78900c4573920e4c01ff60162d2";
 
 // URL for calling API for City
@@ -29,7 +31,9 @@ var formSubmitHandler = function(event) {
   var cityname = thisIsCityEl.value.trim();
   if (cityname) {
     getCoordinates(cityname)
-    displaySearches(cityname);
+    displaySearches(cityname)
+    displayWeather(cityname)
+    saveSearch(cityname)
   } else {
     displayCityEl.textContent = "Error: City Not Found";
   }
@@ -42,7 +46,7 @@ function getCoordinates(city) {
     async:true,
     dataType: "json",
     success: function(json) {
-      console.log(json)
+      // console.log(json)
       getCoordinates.json = json;
       getWeather(json.coord);
       // getForecast(json.coord);
@@ -60,9 +64,9 @@ function getWeather (coord) {
     async:true,
     dataType: "json",
     success: function(json) {
-      console.log(json);
+      // console.log(json);
       getWeather.json = json;
-      displayWeather(json);
+      displayWeather(json.current);
       displayForecast(json.daily);
     },
     error: function(err) {
@@ -71,34 +75,51 @@ function getWeather (coord) {
   })
 }
 
-function displayForecast (daily) {
-  console.log(daily);
-
-}
-
-function displayWeather(data) {
+function displayWeather(current) {
+  console.log(current);
   // format city name
-  var displayCity = thisIsCityEl.value.trim();
-  displayCityEl.textContent = "Showing Weather for: "+displayCity;
+  var displayCity = thisIsCityEl.value.trim()
+  displayCityEl.textContent = "Showing Weather for: "+displayCity
 
-  data.current.humidity
-  data.current.temp
-  data.current.uvi
-  data.current.wind_speed
+  $("#display-temp").text(current.temp + "\xB0" + "F");
+  $("#display-wind").text(current.wind_speed + "mph");
+  $("#display-hum").text(current.humidity + "%");
+  $("#display-uvi").text(current.uvi);
 
+  if (current.uvi <= 2) {
+    $("#display-uvi").addClass("favorable");
+  } else if (current.uvi >= 3 || current.uvi <= 5) {
+    $("#display-uvi").addClass("moderate");
+  } else if (current.uvi >= 6 || current.uvi <= 7) {
+    $("#display-uvi").addClass("high");
+  } else if (current.uvi >= 8 || current.uvi <= 10) {
+    $("#display-uvi").addClass("very-high");
+  } else if (current.uvi >= 11) {
+    $("#display-uvi").addClass("extreme");
+  };
+}
+function displayForecast (daily) {
+  // console.log(daily);
 
 }
+
 
 function displaySearches(city) {
-  console.log(city)
-  var displayCity = thisIsCityEl.value.trim();
+  // console.log(city)
+  var displayCity = city;
   var searchButtonEl = document.createElement("button");
-  searchButtonEl.classList = "button is-info is-fullwidth ";
+  searchButtonEl.classList = "button is-info is-fullwidth";
+  searchButtonEl.setAttribute("data-id", searchIdCounter);
   searchButtonEl.textContent = displayCity;
 
   recentSearchEl.appendChild(searchButtonEl);
+
+  searchIdCounter++;
 }
 
-
+// listens to formSubmitHandler and passes City Name to city
+var saveSearch = function (city) {
+  localStorage.setItem(searchIdCounter, city);
+}
 
 userInputEl.addEventListener("submit", formSubmitHandler)

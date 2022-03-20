@@ -18,23 +18,25 @@
   <!-- Begin User Input Form -->
   <section class="container">
     <div class="columns is-multiline">
-      <!-- Begin User Input Form -->
-      <form class="field box column is-one-quarter ml-4" id="input-form">
-        <label class="label">Search By City</label>
-        <div class="control">
-          <input id="cityname" class="input" type="text" placeholder="ex: Brownsville">
-        </div>
-        <div class="control">
-          <button class="button is-primary mt-1" id="search-btn">Search</button>
-        </div>
+      <div class="box column is-one-quarter ml-4">
+        <!-- Begin User Input Form -->
+        <form class="field box" id="input-form">
+          <label class="label">Search By City</label>
+          <div class="control">
+            <input id="cityname" class="input" type="text" placeholder="ex: Brownsville">
+          </div>
+          <div class="control">
+            <button class="button is-primary mt-1" id="search-btn">Search</button>
+          </div>
+        </form>
         <!-- Searched Cities -->
         <div id="searched-cities" class="box mt-3">
           <label class="label">Recent Searches:</label>
-          <div id="recent-searches">
+          <div id="recent-searches" class="buttons">
             <!-- Buttons Created Dynamically in script.js -->
           </div>
         </div>
-      </form>
+      </div>
       <!-- Begin City Weather Container -->
       <div class="box column ml-2 mr-4" id="weather-container">
         <!-- Display Weather for ...... City -->
@@ -47,7 +49,7 @@
           Temp: <span id="display-temp"></span></br>
           Wind: <span id="display-wind"></span></br>
           Humidity: <span id="display-hum"></span></br>
-          UV Index: <span id="display-uvi"></span></br>
+          UV Index: <span id="display-uvi" class=""></span></br>
         </p>
         <!-- Forecast Div Container -->
         <div class="" id="forecast-container">
