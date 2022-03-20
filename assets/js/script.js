@@ -21,7 +21,7 @@ var formSubmitHandler = function(event) {
   if (cityname) {
     getCoordinates(cityname)
     displaySearches(cityname)
-    saveSearch(cityname)
+    // saveSearch(cityname)
     thisIsCityEl.textContent = "";
   } else {
     displayCityEl.textContent = "Error: City Not Found";
@@ -139,6 +139,7 @@ function displaySearches(city) {
   recentSearchEl.appendChild(searchButtonEl);
 
   searchIdCounter++;
+  saveSearch(searchIdCounter, searchButtonEl);
 }
 
 function runSearches (event) {
@@ -151,8 +152,8 @@ function runSearches (event) {
 }
 
 // listens to formSubmitHandler and passes City Name to city
-var saveSearch = function (city) {
-  localStorage.setItem(searchIdCounter, city);
+var saveSearch = function (searchId, search) {
+  localStorage.setItem(searchId, search.textContent);
 }
 
 // var loadSearch = function () {
