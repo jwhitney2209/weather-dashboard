@@ -7,6 +7,8 @@ var weatherContainerEl = document.querySelector("#weather-container");
 var recentSearchEl = document.querySelector("#recent-searches");
 var forecastBoxesEl = document.querySelector("#forecast-boxes")
 
+
+
 // counter to add ID's to each city name for local storage
 var searchIdCounter = 0;
 
@@ -128,7 +130,6 @@ function displayForecast (daily) {
   $("#display-hum5").text(daily[5].humidity + "%");
 }
 
-
 function displaySearches(city) {
   // console.log(city)
   var searchButtonEl = document.createElement("button");
@@ -156,15 +157,5 @@ var saveSearch = function (searchId, search) {
   localStorage.setItem(searchId, search.textContent);
 }
 
-// var loadSearch = function () {
-
-// }
-
-// var loadSearches = function () {
-
-// };
-
 userInputEl.addEventListener("submit", formSubmitHandler);
 recentSearchEl.addEventListener("click", runSearches);
-
-// loadSearch();
