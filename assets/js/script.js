@@ -24,7 +24,7 @@ var formSubmitHandler = function(event) {
     getCoordinates(cityname)
     displaySearches(cityname)
     // saveSearch(cityname)
-    thisIsCityEl.textContent = "";
+    // thisIsCityEl.textContent = "";
   } else {
     displayCityEl.textContent = "Error: City Not Found";
   }
@@ -58,6 +58,7 @@ function getWeather (coord) {
     dataType: "json",
     success: function(json) {
       getWeather.json = json;
+      console.log(json);
 
       var current = json.current;
       var uvIndex = Math.round(current.uvi);
