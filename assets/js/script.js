@@ -7,7 +7,7 @@ var weatherContainerEl = document.querySelector("#weather-container");
 var recentSearchEl = document.querySelector("#recent-searches");
 var forecastBoxesEl = document.querySelector("#forecast-boxes")
 
-
+var searchHistory = [];
 
 // counter to add ID's to each city name for local storage
 var searchIdCounter = 0;
@@ -15,20 +15,10 @@ var searchIdCounter = 0;
 // apiKey for OpenWeather
 var apiKey = "edb9f78900c4573920e4c01ff60162d2";
 
-// form submission handler, will take city name and run functions
-var formSubmitHandler = function(event) {
-  event.preventDefault();
-  // get city name from form
-  var cityname = thisIsCityEl.value.trim();
-  if (cityname) {
-    getCoordinates(cityname)
-    displaySearches(cityname)
-    // saveSearch(cityname)
-    // thisIsCityEl.textContent = "";
-  } else {
-    displayCityEl.textContent = "Error: City Not Found";
-  }
-}
+
+
+
+
 // this function calls the Geocoding API
 function getCoordinates(city) {
   $.ajax({
@@ -58,8 +48,6 @@ function getWeather (coord) {
     dataType: "json",
     success: function(json) {
       getWeather.json = json;
-      console.log(json);
-
       var current = json.current;
       var uvIndex = Math.round(current.uvi);
       var iconId = current.weather[0].icon;
@@ -130,33 +118,124 @@ function displayForecast (daily) {
   $("#display-wind5").text(Math.round(daily[5].wind_speed) + "mph");
   $("#display-hum5").text(daily[5].humidity + "%");
 }
-
-function displaySearches(city) {
-  // console.log(city)
-  var searchButtonEl = document.createElement("button");
-  searchButtonEl.classList = "button is-info is-fullwidth";
-  searchButtonEl.setAttribute("data-id", searchIdCounter);
-  searchButtonEl.textContent = city;
-
-  recentSearchEl.appendChild(searchButtonEl);
-
-  searchIdCounter++;
-  saveSearch(searchIdCounter, searchButtonEl);
-}
-
-function runSearches (event) {
-  var searchEl = event.target;
-  if (event.target.matches("button")){
-    city=searchEl.textContent.trim();
-    getCoordinates(city);
+function displayHistory() {
+  recentSearchEl.innerHTML = "";
+  for (var i = 0; i <= searchHistory.length -1; i++) {
+    var searchButtonEl = document.createElement("button");
+    searchButtonEl.setAttribute("type", "button")
+    searchButtonEl.classList = "button is-info is-fullwidth";
+    searchButtonEl.setAttribute("data-search", searchHistory[i])
+    searchButtonEl.textContent = searchHistory[i];
+    recentSearchEl.append(searchButtonEl);
   }
+};
 
-}
+function setHistory(info) {
+  // if (searchHistory.indexOf(info) !== -1) {
+  //   return;
+  // } 
+  searchHistory.push(info);
 
-// listens to formSubmitHandler and passes City Name to city
-var saveSearch = function (searchId, search) {
-  localStorage.setItem(searchId, search.textContent);
-}
+  localStorage.setItem("id", JSON.stringify(searchHistory));
+  displayHistory();
+};
+
+function getHistory() {
+  var storageHistory = localStorage.getItem("id");
+  if (storageHistory) {
+    searchHistory = JSON.parse(storageHistory);
+  } 
+  displayHistory();
+};
+
+// function setSearches(city) {
+//   if (searchIdCounter < 5) {
+//     localStorage.setItem(searchIdCounter, city);
+//   } else {
+//     searchIdCounter = 0;
+//     localStorage.setItem(searchIdCounter, city)
+//     load();
+//   }
+  
+//   var searchButtonEl = document.createElement("button");
+//   searchButtonEl.classList = "button is-info is-fullwidth";
+//   searchButtonEl.setAttribute("data-id", searchIdCounter);
+//   searchButtonEl.textContent = city;
+
+//   recentSearchEl.appendChild(searchButtonEl);
+  
+
+//   searchIdCounter++;
+//   console.log(localStorage)
+//   let keys = Object.key(localStorage.getItem(keys));
+//   console.log(keys);
+// }
+function formSubmitHandler (event) {
+  event.preventDefault();
+  var search = thisIsCityEl.value.trim();
+  getCoordinates(search);
+  setHistory(search);
+};
+
+function historyHandler (event) {
+  if (!event.target.matches("button")) {
+    return;
+  }
+  var buttonClick = event.target;
+  var search = buttonClick.getAttribute("data-search");
+  getCoordinates(search);
+};
+
+getHistory();
+
+// function runSearches (event) {
+//   var searchEl = event.target;
+//   if (searchEl.matches("button")){
+//     city=searchEl.textContent.trim();
+//     getCoordinates(city);
+//   }
+// }
+
+// form submission handler, will take city name and run functions
+// var formSubmitHandler = function(event) {
+//   event.preventDefault();
+//   var event.target
+//   // get city name from form
+//   var cityname = thisIsCityEl.value.trim();
+//   if (cityname) {
+//     getCoordinates(cityname)
+
+//   } else {
+//     displayCityEl.textContent = "Error: City Not Found";
+//   }
+// };
 
 userInputEl.addEventListener("submit", formSubmitHandler);
-recentSearchEl.addEventListener("click", runSearches);
+recentSearchEl.addEventListener("click", historyHandler);
+
+// function load () {
+//   var searchOne = document.createElement("button");
+//   searchOne.classList = "button is-info is-fullwidth";
+//   searchOne.setAttribute("data-id", searchIdCounter);
+//   searchOne.textContent = localStorage.getItem("0");
+
+//   var searchTwo = document.createElement("button");
+//   searchTwo.classList = "button is-info is-fullwidth";
+//   searchTwo.setAttribute("data-id", searchIdCounter);
+//   searchTwo.textContent = localStorage.getItem("1");
+
+//   var searchThree = document.createElement("button");
+//   searchThree.classList = "button is-info is-fullwidth";
+//   searchThree.setAttribute("data-id", searchIdCounter);
+//   searchThree.textContent = localStorage.getItem("2");
+
+//   var searchFour = document.createElement("button");
+//   searchFour.classList = "button is-info is-fullwidth";
+//   searchFour.setAttribute("data-id", searchIdCounter);
+//   searchFour.textContent = localStorage.getItem("3");
+  
+//   recentSearchEl.appendChild(searchOne);
+//   recentSearchEl.appendChild(searchTwo);
+//   recentSearchEl.appendChild(searchThree);
+//   recentSearchEl.appendChild(searchFour);
+// };
